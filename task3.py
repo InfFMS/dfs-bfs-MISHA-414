@@ -3,10 +3,12 @@
 # Граф: A → B → C
 #       A → D
 
-graf = {"A" : ["B", "C"],
-        "B" : ["C"],
+graf = {"A" : ["B", "D", 'e'],
+        "B" : ["C", "D"],
         "C" : [],
-        "D" : []}
+        "D" : ['r'],
+        'e': [],
+        'r':[]}
 
 # Шаги:
 # 1. Начальные вершины без входящих рёбер: [A]
@@ -16,3 +18,34 @@ graf = {"A" : ["B", "C"],
 # 5. Обрабатываем D → результат [A,B,D]
 # 6. Обрабатываем C → результат [A,B,D,C]
 # 7. Все вершины обработаны → сортировка завершена
+
+def Kan(graf):
+    degree={}
+    line = []
+    for key in graf.keys():
+        degree[key]=0
+    for key, val in graf.items():
+        for i in val:
+            degree[i]+=1
+
+    for key, val in degree.items():
+        if val==0:
+            line.append(key)
+
+    answer=[]
+    while len(line)!=0:
+        symbol=line[0]
+        answer.append(symbol)
+        line.remove(symbol)
+
+        down_degree=graf[symbol]
+        for i in down_degree:
+            degree[i]-=1
+        for key, val in degree.items():
+            if val<=0 and key not in line and key not in answer:
+                line.append(key)
+
+
+    return answer
+
+print(Kan(graf))

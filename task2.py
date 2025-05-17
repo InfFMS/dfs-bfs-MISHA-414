@@ -5,7 +5,7 @@
 # 
 # 1. Есть ли путь между двумя заданными городами (вершинами)?
 # 2. Сколько всего островов (компонент связности) в графе?
-# 3.Перечислить, какие города принадлежат каждому острову.
+# 3. Перечислить, какие города принадлежат каждому острову.
 # 
 # Входные данные:
 # Первая строка: N (количество городов) и M (количество дорог).
@@ -60,3 +60,39 @@
 # 5: [5]
 # 6: [6]
 # 7: [7]
+
+town, way=map(int, input().split())
+lst=[]
+g={}
+for i in range(1, town+1):
+    g[i]=[]
+
+for _ in range(way):
+    town1, town2=map(int, input().split())
+    g[town1]=g[town1]+[town2]
+    g[town2]=g[town2]+[town1]
+print(g)
+
+lst=[i for i in range(1, town+1)]
+
+
+def sorting(i):
+    for num in g[i]:
+        if num in answer:
+            continue
+        answer.append(num)
+        sorting(num)
+
+count=1
+start, end=map(int, input().split())
+bull='NO'
+while lst!=[]:
+    answer = [lst[0]]
+    sorting(lst[0])
+    print(count, '=', answer)
+    if start in answer and end in answer:
+        bull='YES'
+    for num in answer:
+        lst.remove(num)
+    count+=1
+print(bull)
